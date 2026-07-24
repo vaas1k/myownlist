@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 env:
-  SING_BOX_VERSION: "1.11.13"
+  SING_BOX_VERSION: "v1.13.14"
 
 jobs:
   build:
