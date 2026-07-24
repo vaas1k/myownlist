@@ -1,1 +1,26 @@
 # один домен на строку, без http:// и путей
+perplexity.ai
+volleytours.com
+skyscanner.gg
+skyscanner.com
+rivbc.com
+openai.com
+adjoe.io
+windguru.cz
+chatgpt.com
+oaistatic.com
+oaiusercontent.com
+oai.com
+arkoselabs.com
+identrust.com
+auth0.com
+claude.ai
+anthropic.com
+anthropic.ai
+claude.com
+2ip.io
+github.com
+githubassets.com
+githubusercontent.com
+stripe.com
+spb-club.xyz
