@@ -1,0 +1,68 @@
+name: Build myownlist.srs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "lists/myownlist.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  SING_BOX_VERSION: "1.11.13"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Compute added domains
+        id: diff
+        run: |
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            ADDED=$(git diff HEAD^ HEAD -- lists/myownlist.txt | grep '^+' | grep -v '^+++' | sed 's/^+//' | grep -v '^\s*$' | grep -v '^\s*#' || true)
+          else
+            ADDED=$(grep -v '^\s*$' lists/myownlist.txt | grep -v '^\s*#' || true)
+          fi
+          {
+            echo "domains<<EOF"
+            echo "$ADDED"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Build source.json
+        run: python3 scripts/build_ruleset.py lists/myownlist.txt > source.json
+
+      - name: Compile rule-set
+        run: |
+          mkdir -p output
+          docker run --rm -v "$PWD":/w -w /w "ghcr.io/sagernet/sing-box:${SING_BOX_VERSION}" rule-set compile source.json -o output/myownlist.srs
+
+      - name: Commit ruleset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/myownlist.srs
+          git diff --cached --quiet || git commit -m "Build myownlist.srs"
+          git push
+
+      - name: Notify Telegram
+        if: steps.diff.outputs.domains != ''
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          URL="https://raw.githubusercontent.com/${{ github.repository }}/main/output/myownlist.srs"
+          TEXT="myownlist.srs обновлён:
+          ${{ steps.diff.outputs.domains }}
+
+          $URL"
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
+            --data-urlencode "text=${TEXT}" > /dev/null
