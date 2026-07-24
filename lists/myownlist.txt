@@ -24,3 +24,4 @@ githubassets.com
 githubusercontent.com
 stripe.com
 spb-club.xyz
+bookinglayer.com
