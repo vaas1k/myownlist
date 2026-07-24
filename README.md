@@ -29,7 +29,7 @@ Workflow `.github/workflows/build.yml` сам:
   "type": "remote",
   "tag": "myownlist",
   "format": "binary",
-  "url": "https://raw.githubusercontent.com/<user>/<repo>/main/output/myownlist.srs",
+  "url": "https://raw.githubusercontent.com/vaas1k/myownlist/main/output/myownlist.srs",
   "download_detour": "direct"
 }
 ```
