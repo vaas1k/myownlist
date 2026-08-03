@@ -25,3 +25,5 @@ githubusercontent.com
 stripe.com
 spb-club.xyz
 bookinglayer.com
+fairwinds.com
+
