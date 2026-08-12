@@ -27,3 +27,4 @@ spb-club.xyz
 bookinglayer.com
 fairwinds.com
 aquasec.com
+vercel.sh
