@@ -1,5 +1,7 @@
 cloudflare.com
 cloudflarestorage.com
+media.io
+pippit.ai
 artstation.com
 bitru.org
 clerk.com
