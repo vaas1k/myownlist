@@ -1,3 +1,5 @@
+github.com
+hashicorp.com
 cloudflare.com
 cloudflarestorage.com
 media.io
