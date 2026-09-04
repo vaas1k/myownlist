@@ -3,6 +3,7 @@
 
 Только stdlib. Параметры из env (см. /etc/myownlist-bot.env):
   BOT_TOKEN, ALLOWED_CHAT_ID, REPO_DIR, REPO_SSH, LIST_FILE, GIT_SSH_COMMAND
+  ITDOG_SETS (через запятую), ITDOG_CACHE_DIR, ITDOG_TTL_HOURS, SING_BOX — проверка «уже покрыт itdog»
 Запуск: python3 bot.py        Самотест: python3 bot.py --selftest
 """
 import json
@@ -39,6 +40,50 @@ def parse_domains(text: str):
             seen.add(d)
             valid.append(d)
     return valid, invalid
+
+
+# ---- itdog rule-sets (подключённые в профилях) ----
+ITDOG_URL = "https://github.com/itdoginfo/allow-domains/releases/latest/download/{}.srs"
+
+
+def _suffix_match(d: str, exact: set, suffix: set) -> bool:
+    if d in exact or d in suffix:
+        return True
+    p = d.split(".")
+    return any(".".join(p[i:]) in suffix for i in range(1, len(p)))
+
+
+def load_itdog(cfg: dict) -> dict:
+    """-> {set_name: (exact, suffix)}. Кеш srs по TTL; недоступный набор пропускается."""
+    names = [n for n in cfg.get("ITDOG_SETS", "").split(",") if n]
+    cache = cfg.get("ITDOG_CACHE_DIR") or "/tmp/itdog"
+    ttl = float(cfg.get("ITDOG_TTL_HOURS") or 6) * 3600
+    sb = cfg.get("SING_BOX") or "sing-box"
+    os.makedirs(cache, exist_ok=True)
+    out = {}
+    for n in names:
+        srs, js = os.path.join(cache, n + ".srs"), os.path.join(cache, n + ".json")
+        try:
+            if not os.path.exists(js) or time.time() - os.path.getmtime(js) > ttl:
+                with urllib.request.urlopen(ITDOG_URL.format(n), timeout=60) as r, open(srs, "wb") as f:
+                    f.write(r.read())
+                subprocess.run([sb, "rule-set", "decompile", srs, "-o", js], check=True, capture_output=True, timeout=60)
+            ex, su = set(), set()
+            for rule in json.load(open(js))["rules"]:
+                ex |= {x.lower() for x in rule.get("domain", [])}
+                su |= {x.lower().lstrip(".") for x in rule.get("domain_suffix", [])}
+            out[n] = (ex, su)
+        except Exception as e:
+            print(f"itdog {n}: {e}", flush=True)
+    return out
+
+
+def itdog_covered(d: str, sets: dict):
+    """-> имя набора, которым домен уже покрыт, иначе None."""
+    for n, (ex, su) in sets.items():
+        if _suffix_match(d, ex, su):
+            return n
+    return None
 
 
 def existing_domains(path: str) -> set:
@@ -94,24 +139,38 @@ def handle(text: str, cfg: dict) -> str:
     valid, invalid = parse_domains(text)
     if not valid:
         return "Не нашёл валидных доменов. " + HELP
-    try:
-        ensure_repo(cfg["REPO_DIR"], cfg["REPO_SSH"])
-        added, already = add_domains(cfg["REPO_DIR"], cfg["LIST_FILE"], valid)
-    except Exception as e:  # git/сеть — сообщаем, файл не тронут
-        return f"Ошибка: {e}"
+    sets = load_itdog(cfg)
+    want = [n for n in cfg.get("ITDOG_SETS", "").split(",") if n]
+    unchecked = sorted(set(want) - set(sets))
+    covered = [(d, itdog_covered(d, sets)) for d in valid]
+    covered = [(d, n) for d, n in covered if n]
+    valid = [d for d in valid if d not in {c[0] for c in covered}]
+    added, already = [], []
+    if valid:
+        try:
+            ensure_repo(cfg["REPO_DIR"], cfg["REPO_SSH"])
+            added, already = add_domains(cfg["REPO_DIR"], cfg["LIST_FILE"], valid)
+        except Exception as e:  # git/сеть — сообщаем, файл не тронут
+            return f"Ошибка: {e}"
     parts = []
     if added:
         parts.append("Добавил: " + ", ".join(added) + "\nСборка srs пошла, жди уведомление.")
+    if covered:
+        parts.append("Уже покрыт itdog: " + ", ".join(f"{d} ({n})" for d, n in covered))
     if already:
         parts.append("Уже было: " + ", ".join(already))
+    if unchecked:
+        parts.append("itdog не проверен (недоступен): " + ", ".join(unchecked))
     if invalid:
         parts.append("Пропустил (не домен): " + ", ".join(invalid))
     return "\n".join(parts)
 
 
 def main():
-    cfg = {k: os.environ.get(k, "") for k in ("BOT_TOKEN", "ALLOWED_CHAT_ID", "REPO_DIR", "REPO_SSH", "LIST_FILE")}
-    missing = [k for k, v in cfg.items() if not v]
+    req = ("BOT_TOKEN", "ALLOWED_CHAT_ID", "REPO_DIR", "REPO_SSH", "LIST_FILE")
+    opt = ("ITDOG_SETS", "ITDOG_CACHE_DIR", "ITDOG_TTL_HOURS", "SING_BOX")
+    cfg = {k: os.environ.get(k, "") for k in req + opt}
+    missing = [k for k in req if not cfg[k]]
     if missing:
         sys.exit(f"missing env: {', '.join(missing)}")
     allowed = int(cfg["ALLOWED_CHAT_ID"])
@@ -149,6 +208,11 @@ def selftest():
     v, i = parse_domains("a.com, B.COM\nhttp://a.com/x  junk  c.d.e.org")
     assert v == ["a.com", "b.com", "c.d.e.org"], v
     assert i == ["junk"], i
+    ex, su = {"exact.io"}, {"cover.org", "sub.deep.net"}
+    assert _suffix_match("exact.io", ex, su) and _suffix_match("cover.org", ex, su)
+    assert _suffix_match("a.b.cover.org", ex, su) and _suffix_match("x.sub.deep.net", ex, su)
+    assert not _suffix_match("deep.net", ex, su) and not _suffix_match("notcover.org", ex, su)
+    assert itdog_covered("a.cover.org", {"s1": (ex, su)}) == "s1" and itdog_covered("free.com", {"s1": (ex, su)}) is None
     assert handle("/start", {}) == HELP
     assert handle("!!!", {}).startswith("Не нашёл")
     print("selftest OK")
