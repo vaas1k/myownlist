@@ -1,3 +1,4 @@
+cloudfront.net
 github.com
 hashicorp.com
 cloudflare.com
