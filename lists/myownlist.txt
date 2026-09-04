@@ -1,8 +1,6 @@
 cloudfront.net
 orbstack.dev
 github.com
-hashicorp.com
-cloudflare.com
 cloudflarestorage.com
 media.io
 pippit.ai
@@ -17,7 +15,6 @@ ezgif.com
 flclash.cc
 fosshub.com
 heavyfetish.com
-ikea.com
 ipinfo.app
 ixxx.com
 jinxxy.com
@@ -27,13 +24,11 @@ nexusmods.com
 pastebin.com
 protondb.com
 rulet.tv
-rutracker.org
 sing-box.sagernet.org
 spankbang.com
 sb-cd.com
 sxyprn.com
 sxyprn.net
-teamviewer.com
 trueachievements.com
 yarnpkg.com
 check-host.net
@@ -52,7 +47,6 @@ crdroid.net
 russianfood.com
 wwnd.space
 smods.ru
-fastpic.org
 drpool.io
 kyoceradocumentsolutions.com
 eaaccounts.akamaized.net
@@ -77,7 +71,7 @@ maximoff.su
 strapi.io
 coderabbit.ai
 storybook.js.org
-aniliberty.top 
+aniliberty.top
 libria.fun
 userbenchmark.com
 plantuml.com
@@ -93,7 +87,7 @@ joeysretrohandhelds.com
 customfw.xyz
 youngliving.com
 gopro.com
-artixlinux.org 
+artixlinux.org
 beatsaver.com
 beatmods.com
 bsmanager.io
@@ -113,7 +107,6 @@ mediafilez.forgecdn.net
 dockhand.pro
 pantone.com
 pplx-res.cloudinary.com
-pplx-res.cloudinary.com
 elsevier.com
 elsevier.com.cdn.cloudflare.net
 mdpi.com
@@ -127,7 +120,7 @@ cdn.web-global.fds.api.mi-img.com
 3os.org
 easysimplesolution.net
 imazing.com
-acclaimedvideogames.com 
+acclaimedvideogames.com
 cdn.polyhaven.com
 cdn-service.space
 wayground.com
@@ -180,7 +173,7 @@ bitbucket.org
 gitlab.com
 callfilter.app
 vivo.com.cn
-pusher.com 
+pusher.com
 irc-ws.chat.twitch.tv
 bitvise.com
 higgsfield.ai
@@ -202,7 +195,6 @@ transistor.fm
 walletbot.me
 allawnos.com
 
-hetzner.com
 hetzner.cloud
 desec.io
 izzysoft.de
@@ -217,11 +209,8 @@ media5.cdnbase.com
 amazon.com
 fossorial.io
 netbird.io
-protonvpn.com
-strava.com
 vrchat.com
 vrchat.cloud
-mongodb.com
 amazonaws.com
 cloudfront.net
 
@@ -240,9 +229,7 @@ tuya-inc.cn
 tuyain.com
 iot334.com
 
-wbagora.com
 wbinsights.com
-wbgames.com
 
 capcut.com
 capcutstatic.com
@@ -271,25 +258,16 @@ volleytours.com
 skyscanner.gg
 skyscanner.com
 rivbc.com
-openai.com
 adjoe.io
 windguru.cz
-chatgpt.com
-oaistatic.com
-oaiusercontent.com
 oai.com
 arkoselabs.com
 identrust.com
 auth0.com
-claude.ai
-anthropic.com
 anthropic.ai
-claude.com
 2ip.io
-github.com
 githubassets.com
 githubusercontent.com
-stripe.com
 spb-club.xyz
 bookinglayer.com
 fairwinds.com
@@ -305,14 +283,11 @@ deepmind.com
 deepmind.google
 geller-pa.googleapis.com
 generativelanguage.googleapis.com
-proactivebackend-pa.googleapis.com
 ai.google.dev
 generativeai.google
 makersuite.google.com
 aistudio.google.com
-bard.google.com
 gemini.google
-gemini.google.com
 notebooklm.google.com
 clients6.google.com
 notebooklm.google

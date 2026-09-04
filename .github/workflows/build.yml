@@ -62,6 +62,7 @@ jobs:
           TEXT="myownlist.srs обновлён:
           ${{ steps.diff.outputs.domains }}
 
+          Переподключи клиентов sing-box (SFM/SFA: сервис off/on или обновление rule-set).
           $URL"
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
             --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \

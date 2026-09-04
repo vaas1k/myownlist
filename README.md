@@ -42,3 +42,10 @@ Workflow `.github/workflows/build.yml` сам:
 Компиляция `.srs` идёт образом `ghcr.io/sagernet/sing-box`, версия зафиксирована
 в `SING_BOX_VERSION` (`.github/workflows/build.yml`). Если файл не грузится на
 роутере/маке — там другая версия sing-box, поменяй тег на совпадающую.
+
+## Бот: домен → репо
+
+На srv2 (`45.14.247.6`) крутится `bot/bot.py` (systemd `myownlist-bot`), параметры в `/etc/myownlist-bot.env`.
+Пишешь боту домен (или несколько через пробел/перенос) — он дописывает в `lists/myownlist.txt`,
+коммитит и пушит через deploy key. Дальше обычный workflow: сборка srs → уведомление «переподключи клиентов».
+Отвечает только `ALLOWED_CHAT_ID`. Самотест: `python3 bot/bot.py --selftest`.
