@@ -1,4 +1,5 @@
 cloudfront.net
+orbstack.dev
 github.com
 hashicorp.com
 cloudflare.com
