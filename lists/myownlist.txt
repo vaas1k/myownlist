@@ -299,3 +299,5 @@ registry.opentofu.org
 opentofu.org
 tampermonkey.net
 www.tampermonkey.net
+www.userscript.zone
+userscript.zone
