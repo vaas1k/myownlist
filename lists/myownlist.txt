@@ -297,3 +297,4 @@ vas3k.club
 chromewebstore.google.com
 registry.opentofu.org
 opentofu.org
+tampermonkey.net
