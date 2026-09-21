@@ -301,3 +301,4 @@ tampermonkey.net
 www.tampermonkey.net
 www.userscript.zone
 userscript.zone
+pirateface.co
