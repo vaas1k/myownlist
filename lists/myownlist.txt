@@ -302,3 +302,14 @@ www.tampermonkey.net
 www.userscript.zone
 userscript.zone
 pirateface.co
+cloud.rovio.com
+mist.rovio.com
+smoke.rovio.com
+cdp.cloud.unity3d.com
+config.uca.cloud.unity3d.com
+gateway.unityads.unity3d.com
+ms.applovin.com
+rt.applovin.com
+api.helpshift.com
+firebaseremoteconfig.googleapis.com
+games.googleapis.com
