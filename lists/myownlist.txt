@@ -315,3 +315,4 @@ firebaseremoteconfig.googleapis.com
 games.googleapis.com
 red.angrybirdsbigadventure.net
 ngrybirdsbigadventure.net
+angrybirdsbigadventure.net
