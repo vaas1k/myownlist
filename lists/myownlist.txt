@@ -313,3 +313,5 @@ rt.applovin.com
 api.helpshift.com
 firebaseremoteconfig.googleapis.com
 games.googleapis.com
+red.angrybirdsbigadventure.net
+ngrybirdsbigadventure.net
