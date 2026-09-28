@@ -324,3 +324,4 @@ docs.gitlab.com
 www.gitlab.com
 mail.com
 webtor.io
+gameguardian.net
