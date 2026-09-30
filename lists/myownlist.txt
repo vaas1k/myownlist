@@ -326,3 +326,4 @@ mail.com
 webtor.io
 gameguardian.net
 claudeusercontent.com
+figma.com
