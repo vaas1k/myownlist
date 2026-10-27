@@ -337,3 +337,5 @@ bunny.net
 app.circleci.com
 circleci.com
 fbsearch.ru
+forum.dchublist.org
+dchublist.org
