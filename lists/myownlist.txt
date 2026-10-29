@@ -339,3 +339,5 @@ circleci.com
 fbsearch.ru
 forum.dchublist.org
 dchublist.org
+hermes-agent.nousresearch.com
+nousresearch.com
