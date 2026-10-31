@@ -342,3 +342,4 @@ dchublist.org
 hermes-agent.nousresearch.com
 nousresearch.com
 fivbeach.com
+fish.audio
