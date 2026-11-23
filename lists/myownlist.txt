@@ -352,3 +352,4 @@ dl-cdn.alpinelinux.org
 alpinelinux.org
 t-ru.org
 collider.com
+morphe.software
